@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SAMPLE – M365 Copilot Reporting Agent POC (Mock)</title>
+<link rel="stylesheet" href="css/style.css"></head>
+<body>
+<div class="topbar">MOCK / SAMPLE DEMO – all data fictional. No live Copilot, AWS or Tableau connection.</div>
+<header><div><h1>Copilot Reporting Agent with AWS DM Source</h1><p>POC concept demo · SAMPLE · local-only static page</p></div>
+<span class="pill">SAMPLE</span></header>
+<nav role="tablist">
+<button role="tab" class="tab active" data-tab="arch" aria-selected="true">1 · Architecture</button>
+<button role="tab" class="tab" data-tab="ask" aria-selected="false">2 · Ask the agent</button>
+<button role="tab" class="tab" data-tab="qs" aria-selected="false">3 · Open questions</button>
+</nav>
+<main>
+<section id="arch" class="panel active">
+<div class="legend"><span><i class="sw rec"></i>Recommended POC path</span><span><i class="sw later"></i>Later / optional (dashed)</span><span><i class="sw std"></i>Component / principle</span><span class="hint">Click any box for details &amp; caveats</span></div>
+<div class="archwrap">
+<div class="svgbox"><svg id="diagram" viewBox="0 0 1000 520" role="img" aria-label="Architecture diagram">
+<defs><marker id="ah" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8z" fill="#555"/></marker>
+<marker id="ahg" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8z" fill="#1e8e3e"/></marker></defs>
+<rect x="10" y="30" width="300" height="470" rx="10" class="lane aws"/><text x="25" y="55" class="lanet" fill="#c26a00">PART 1 · DM / DB team (AWS)</text>
+<rect x="350" y="30" width="300" height="470" rx="10" class="lane mid"/><text x="365" y="55" class="lanet" fill="#444">PART 2 · IT / Power Platform</text>
+<rect x="690" y="30" width="300" height="470" rx="10" class="lane ms"/><text x="705" y="55" class="lanet" fill="#0b5cab">PART 3 · Copilot Studio owner (TBD)</text>
+<g class="node" data-id="aurora" tabindex="0"><rect x="40" y="80" width="240" height="70" rx="8" class="b std aws"/><text x="160" y="111" text-anchor="middle">Aurora PostgreSQL DM</text><text x="160" y="132" text-anchor="middle" class="sub">read-only reader endpoint</text></g>
+<g class="node" data-id="agg" tabindex="0"><rect x="40" y="190" width="240" height="70" rx="8" class="b rec"/><text x="160" y="221" text-anchor="middle">Aggregated SQL views</text><text x="160" y="242" text-anchor="middle" class="sub">calculations stay in DW</text></g>
+<g class="node" data-id="s3" tabindex="0"><rect x="40" y="300" width="240" height="70" rx="8" class="b rec"/><text x="160" y="331" text-anchor="middle">S3 + Athena</text><text x="160" y="352" text-anchor="middle" class="sub">or manual Excel/CSV export (POC)</text></g>
+<g class="node" data-id="tableau" tabindex="0"><rect x="40" y="410" width="240" height="70" rx="8" class="b later"/><text x="160" y="441" text-anchor="middle">Tableau published source</text><text x="160" y="462" text-anchor="middle" class="sub">alternative middle layer</text></g>
+<g class="node" data-id="sp" tabindex="0"><rect x="380" y="190" width="240" height="70" rx="8" class="b rec"/><text x="500" y="221" text-anchor="middle">SharePoint / OneDrive</text><text x="500" y="242" text-anchor="middle" class="sub">library for aggregated files</text></g>
+<g class="node" data-id="sync" tabindex="0"><rect x="380" y="300" width="240" height="70" rx="8" class="b rec"/><text x="500" y="331" text-anchor="middle">Power Automate / Lambda</text><text x="500" y="352" text-anchor="middle" class="sub">scheduled sync</text></g>
+<g class="node" data-id="api" tabindex="0"><rect x="380" y="85" width="240" height="60" rx="8" class="b later"/><text x="500" y="112" text-anchor="middle">Small API / MCP</text><text x="500" y="132" text-anchor="middle" class="sub">later option</text></g>
+<g class="node" data-id="tmcp" tabindex="0"><rect x="380" y="410" width="240" height="70" rx="8" class="b later"/><text x="500" y="441" text-anchor="middle">Tableau MCP</text><text x="500" y="462" text-anchor="middle" class="sub">tableau/tableau-mcp · later</text></g>
+<g class="node" data-id="agent" tabindex="0"><rect x="720" y="190" width="240" height="70" rx="8" class="b rec ms"/><text x="840" y="221" text-anchor="middle">Copilot Studio agent</text><text x="840" y="242" text-anchor="middle" class="sub">Copilot LLM writes narrative</text></g>
+<g class="node" data-id="m365" tabindex="0"><rect x="720" y="85" width="240" height="60" rx="8" class="b std ms"/><text x="840" y="112" text-anchor="middle">M365 content</text><text x="840" y="132" text-anchor="middle" class="sub">docs, mail, Teams (permission-aware)</text></g>
+<g class="node" data-id="ci" tabindex="0"><rect x="720" y="300" width="240" height="70" rx="8" class="b later"/><text x="840" y="331" text-anchor="middle">Code interpreter (preview)</text><text x="840" y="352" text-anchor="middle" class="sub">light calculations only</text></g>
+<g class="node" data-id="out" tabindex="0"><rect x="720" y="410" width="240" height="70" rx="8" class="b rec"/><text x="840" y="441" text-anchor="middle">Agent flow → Word/Excel/PDF</text><text x="840" y="462" text-anchor="middle" class="sub">saved to SharePoint/OneDrive</text></g>
+<path d="M160 150V190" class="ar"/><path d="M160 260V300" class="ar g" marker-end="url(#ahg)"/>
+<path d="M280 335H380" class="ar g" marker-end="url(#ahg)"/><path d="M500 300V260" class="ar g" marker-end="url(#ahg)"/>
+<path d="M620 225H720" class="ar g" marker-end="url(#ahg)"/><path d="M840 145V190" class="ar" marker-end="url(#ah)"/>
+<path d="M840 260V300" class="ar d" marker-end="url(#ah)"/><path d="M840 370V410" class="ar g" marker-end="url(#ahg)"/>
+<path d="M280 445H380" class="ar d" marker-end="url(#ah)"/><path d="M620 445H720" class="ar d" marker-end="url(#ah)"/>
+<path d="M280 225Q330 115 380 115" class="ar d" marker-end="url(#ah)"/><path d="M620 115H720" class="ar d" marker-end="url(#ah)"/>
+</svg></div>
+<aside id="detail" class="detail"><h3>Select a box</h3><p>Click a component in the diagram to see what it does, who owns it and the caveats. Principles: read-only · calculations in DW SQL · LLM integrates and writes text only · no connector straight into RDS · respect permissions, DLP, audit · POC starts with manually exported aggregated Excel/CSV.</p></aside>
+</div></section>
+
+<section id="ask" class="panel">
+<div class="banner">⚠ Simulated output – not a live Copilot connection. All numbers, documents and text below are SAMPLE data.</div>
+<div class="askgrid">
+<div class="card"><h3>1. Choose a preset prompt</h3><div id="presets"></div>
+<label class="lbl">Prompt (read-only preset)</label><textarea id="promptbox" readonly rows="4"></textarea>
+<button id="runbtn" class="primary" disabled>▶ Run simulated agent</button> <button id="resetbtn">Reset</button>
+<h3>Run steps</h3><ol id="steps" class="steps"></ol></div>
+<div class="card" id="reportcard"><h3>2. Report</h3><div id="report" class="empty">Run the simulation to see a mock report.</div>
+<div id="dl" class="dl" hidden><button id="dlhtml">⬇ Download HTML</button> <button id="dlcsv">⬇ Download CSV</button></div></div>
+</div></section>
+
+<section id="qs" class="panel">
+<div class="banner info">Checklist for the meeting. Items are UNVERIFIED unless confirmed in writing. State is stored only in this page (localStorage, local).</div>
+<div class="progress"><span id="prog">0 / 0 done</span><button id="clearq">Clear ticks</button></div>
+<div id="qlists"></div></section>
+</main>
+<footer>SAMPLE / MOCK · no real company data, hostnames or credentials · static page, no network calls</footer>
+<script src="js/data.js"></script><script src="js/app.js"></script>
+</body></html>
