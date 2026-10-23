@@ -19,8 +19,8 @@ const esc=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[
 function chart(p){const W=520,H=240,m=34,rows=p.rows,n=p.cols.length-1;
  const series=p.id==='it'?[3]:(p.id==='lic'?[3]:[1,2,3]);
  const colors=['#0078d4','#ff9900','#1e8e3e'];let max=0;
- if(p.id==='it'){max=Math.max(...rows.map(r=>Math.max(r[1],r[2])));}else{max=Math.max(...rows.map(r=>Math.max(...series.map(i=>r[i]))));}
- max=Math.ceil(max*1.1);const sers=p.id==='it'?[1,2]:series;const gw=(W-m-10)/rows.length,bw=gw*0.8/sers.length;
+ if(p.series){max=Math.max(...rows.map(r=>Math.max(...p.series.map(i=>r[i]))));}else if(p.id==='it'){max=Math.max(...rows.map(r=>Math.max(r[1],r[2])));}else{max=Math.max(...rows.map(r=>Math.max(...series.map(i=>r[i]))));}
+ max=Math.ceil(max*1.1);const sers=p.series||(p.id==='it'?[1,2]:series);const gw=(W-m-10)/rows.length,bw=gw*0.8/sers.length;
  let s=`<svg viewBox="0 0 ${W} ${H+40}" role="img" aria-label="Sample chart"><rect width="${W}" height="${H+40}" fill="#fff"/>`;
  for(let t=0;t<=4;t++){const y=H-(H-20)*t/4;s+=`<line x1="${m}" x2="${W-6}" y1="${y}" y2="${y}" stroke="#e5e8ec"/><text x="${m-4}" y="${y+4}" text-anchor="end" font-size="10" fill="#667">${Math.round(max*t/4)}</text>`;}
  rows.forEach((r,i)=>{sers.forEach((c,j)=>{const h=(H-20)*r[c]/max,x=m+i*gw+gw*0.1+j*bw,y=H-h;s+=`<rect x="${x}" y="${y}" width="${bw-2}" height="${h}" fill="${colors[j]}"><title>${esc(r[0])} ${esc(p.cols[c])}: ${r[c]}</title></rect>`;});
