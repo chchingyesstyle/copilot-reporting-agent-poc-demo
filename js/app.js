@@ -31,13 +31,13 @@ function table(p){return `<table class="t"><tr>${p.cols.map(c=>`<th>${esc(c)}</t
 function reportInner(p){return `<p class="watermark">SIMULATED OUTPUT – SAMPLE DATA – NOT A LIVE COPILOT CONNECTION</p><h2>${esc(p.title)}</h2><p><i>Prompt:</i> ${esc(p.prompt)}</p><h3>Data table</h3>${table(p)}<h3>Chart</h3>${chart(p)}<h3>Narrative (written by LLM – simulated)</h3><blockquote>${esc(p.narr)}</blockquote><h3>Sources</h3><ul><li>Aggregated table: ${esc(p.table)}</li>${p.docs.map(d=>`<li>${esc(d[0])}</li>`).join('')}</ul>`;}
 $('#runbtn').onclick=async()=>{if(!cur||running)return;running=true;$('#runbtn').disabled=true;resetOut();const p=cur;
  const steps=[["sys","Agent receives prompt; checks user permissions (simulated)",`Prompt accepted: “${p.title}”`],
- ["dw","Read aggregated sample table (from SharePoint library file)",`${p.table}: ${p.rows.length} rows, ${p.cols.length} columns`],
+ ["sp","Read aggregated file in SharePoint library (exported from DW views, synced on schedule)",`${p.table} export: ${p.rows.length} rows, ${p.cols.length} columns`],
  ["m365","Pull M365 sample document snippets (permission-trimmed)",p.docs.map(d=>d[0]+' → '+d[1]).join(' | ')],
  ["dw","Calculations done by the DW (SQL), not by the LLM",p.dw],
  ["ci","Verification by code interpreter (preview, simulated)",p.ci],
  ["llm","Copilot LLM writes narrative (integration of text only)","Draft narrative generated (simulated)"],
  ["sys","Agent flow assembles report and offers download","Mock report ready – SAMPLE"]];
- const tag={sys:'AGENT',dw:'DW (SQL)',m365:'M365',ci:'CODE INTERPRETER',llm:'COPILOT LLM'};
+ const tag={sys:'AGENT',sp:'SHAREPOINT',dw:'DW (SQL)',m365:'M365',ci:'CODE INTERPRETER',llm:'COPILOT LLM'};
  const ol=$('#steps');const lis=steps.map(s=>{const li=document.createElement('li');li.innerHTML=`<span class="who ${s[0]}">${tag[s[0]]}</span>${esc(s[1])}<small>${esc(s[2])}</small>`;ol.appendChild(li);return li;});
  for(const li of lis){li.classList.add('run');await sleep(window.FAST?10:800);li.classList.replace('run','done');}
  $('#report').className='rep';$('#report').innerHTML=reportInner(p);$('#dl').hidden=false;last=p;running=false;$('#runbtn').disabled=false;};
