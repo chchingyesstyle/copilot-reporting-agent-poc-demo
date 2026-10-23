@@ -48,7 +48,9 @@ window.QS=[
 ["Is Copilot Studio capacity (messages / credits) sufficient for the POC, and what does it cost beyond that?",1],
 ["Is Power Automate (premium connectors) or an AWS Lambda preferred for syncing files?",0],
 ["Which audit and retention settings apply to agent conversations and generated reports?",0],
-["Are preview features (code interpreter, MCP in Copilot Studio) allowed by tenant policy?",1]]},
+["Are preview features (code interpreter, MCP in Copilot Studio) allowed by tenant policy?",1],
+["Where does the report land? In the Copilot chat reply only (Teams / M365 Copilot Chat), or also saved as Word / Excel / PowerPoint to OneDrive or a SharePoint folder?",1],
+["How is a report shared or scheduled? E.g. Power Automate runs the prompt weekly and posts the result to a Teams channel or email, and who may receive it?",1]]},
 {g:"Questions for the DM / DB team",i:[
 ["Which aggregated views / datasets are in scope for the POC, and what is the column contract?",0],
 ["Is the reader endpoint load acceptable for scheduled extracts? What are the lag and window constraints?",0],
@@ -60,5 +62,5 @@ window.QS=[
 ["Licence entitlement for each POC user",1],["DLP policy compatibility",1],["Data classification: Tier 2/3 content in sources",1],
 ["Copilot Studio capacity and cost",1],["Tableau Server version (2025.1+ for MCP) and VizQL Data Service availability",1],
 ["OAuth compatibility (Tableau 2025.3+) with Copilot Studio",1],["Written confirmation from Microsoft / IT that our data is not used for model training",1],
-["Preview feature status (code interpreter) and support terms",1],["Public HTTPS entry or gateway for internal Tableau / API",1]]}
+["Preview feature status (code interpreter) and support terms",1],["Whether the agent can generate charts and Office files in our tenant (report output location)",1],["Public HTTPS entry or gateway for internal Tableau / API",1]]}
 ];
